@@ -37,3 +37,27 @@ az group create -n testRG -l eastus
 ```az cli
 az deployment group create -g testRG -f main.bicep
 ```
+
+## For upload vhd
+
+1. Get SAS URI from **source** disk
+1.a $sas-uri
+1.b Surround "&" ocurrences in the $sas-uri string with double quotes ""&""
+i.e:
+This: 
+`"https://md-ltt2kdr5kz0c.z9.blob.storage.azure.net/lb1r4ht0cjsv/abcd?sv=2018-03-28&sr=b&si=afacb80e-9057-44c2-801f-0ed85e5bd09e&sig=d45NcsLPNrj3MYogYaUxBbxBtIN7ov2mgbyL8RCy5z4%3D"`
+
+Into this: `"https://md-ltt2kdr5kz0c.z9.blob.storage.azure.net/lb1r4ht0cjsv/abcd?sv=2018-03-28""&""sr=b""&""si=afacb80e-9057-44c2-801f-0ed85e5bd09e""&""sig=d45NcsLPNrj3MYogYaUxBbxBtIN7ov2mgbyL8RCy5z4%3D"`
+2. Get **destination** storage account info:
+2.a $storageAccountKey="XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+2.b $storageAccountName="jonguzxyz"
+2.c $storageContainerName="vhds"
+2.d $destinationVHDFileName="W11.vhd"
+3. Start copy with `az storage blob copy start`
+```az cli
+az storage blob copy start --account-key $storageAccountKey --account-name $storageAccountName --destination-blob $destinationVHDFileName --destination-container $storageContainerName --source-uri $sas-uri
+```
+4. Use `az storage blob show` to get progress
+```az cli
+az storage blob show -n $destinationVHDFileName -c $storageContainerName --account-name $storageAccountName --account-key $storageAccountKey --query properties.copy.progress
+```
