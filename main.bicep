@@ -91,7 +91,7 @@ resource windowsVM 'Microsoft.Compute/virtualMachines@2020-12-01' = {
         createOption: 'Attach'
         osType: 'Windows'
         vhd: {
-          uri: 'https://md-ltt2kdr5kz0c.z9.blob.storage.azure.net/lb1r4ht0cjsv/abcd?sv=2018-03-28&sr=b&si=afacb80e-9057-44c2-801f-0ed85e5bd09e&sig=d45NcsLPNrj3MYogYaUxBbxBtIN7ov2mgbyL8RCy5z4%3D'
+          uri: 'https://jonguzxyz.blob.core.windows.net/vhds/W11VM.vhd'
         }
       }
     }
