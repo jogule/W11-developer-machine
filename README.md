@@ -23,22 +23,33 @@ This ARM template is a preconfigured Windows 11 developer VM intended for Azure 
 13. Powershell Core 7.0
 14. SQL Server Management Studio wit Azure Data Studio
 
-## For manual deployment using az cli
+## Changes to main.bicep
 
 1. Build the bicep file to an ARM (.json) template
 ```az cli
 bicep build .\main.bicep
 ```
-2. Create a target resource group in Azure
+2. Add and Commit changes
+```az cli
+git add . && git commit -m "Update main.json"
+```
+3. Push changes
+```az cli
+git push
+```
+
+## For manual deployment using az cli
+
+1. Create a target resource group in Azure
 ```az cli
 az group create -n testRG -l eastus
 ```
-3. Deploy the built ARM template
+2. Deploy the built ARM template
 ```az cli
 az deployment group create -g testRG -f main.bicep
 ```
 
-## For upload vhd
+## For upload vhd after changes
 
 1. Get SAS URI from **source** disk
 $sas-uri
