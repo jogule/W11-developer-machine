@@ -6,7 +6,7 @@ https://raw.githubusercontent.com/jogule/W11-developer-machine/main/main.json
 
 ## Summary
 
-This ARM template is a preconfigured Windows 11 developer VM with the following packages pre-instaled:
+This ARM template is a preconfigured Windows 11 developer VM intended for Azure Immersion Workshops with the following packages pre-instaled:
 
 1. chocolately
 2. vscode
@@ -21,6 +21,7 @@ This ARM template is a preconfigured Windows 11 developer VM with the following 
 11. VS2022
 12. Terraform
 13. Powershell Core 7.0
+14. SQL Server Management Studio wit Azure Data Studio
 
 ## For manual deployment using az cli
 
