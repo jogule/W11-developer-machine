@@ -7,7 +7,9 @@ https://raw.githubusercontent.com/jogule/W11-developer-machine/main/main.json
 ## For manual deployment using az cli
 
 1. Build the bicep file to an ARM (.json) template
-`bicep build .\main.bicep`
+```az cli
+bicep build .\main.bicep
+```
 2. Create a target resource group in Azure
 ```az cli
 az group create -n testRG -l eastus
