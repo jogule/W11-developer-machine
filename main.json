@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.4.1272.37030",
-      "templateHash": "13204003467091308438"
+      "templateHash": "5681383927318530386"
     }
   },
   "parameters": {
@@ -118,7 +118,19 @@
           "createOption": "Import",
           "sourceUri": "https://jonguzxyz.blob.core.windows.net/vhds/W11VM.vhd",
           "storageAccountId": "/subscriptions/99e249a5-a549-4e45-8f73-e03d79691ca8/resourceGroups/core-shared-rg/providers/Microsoft.Storage/storageAccounts/jonguzxyz"
-        }
+        },
+        "osType": "Windows",
+        "hyperVGeneration": "V2"
+      }
+    },
+    {
+      "type": "Microsoft.Storage/storageAccounts",
+      "apiVersion": "2021-02-01",
+      "name": "[format('stw11diags{0}', substring(guid(subscription().id), 0, 3))]",
+      "location": "[parameters('location')]",
+      "kind": "Storage",
+      "sku": {
+        "name": "Standard_LRS"
       }
     },
     {
@@ -136,7 +148,8 @@
             "caching": "ReadWrite",
             "createOption": "Attach",
             "managedDisk": {
-              "id": "[resourceId('Microsoft.Compute/disks', 'W11_OsDisk_1_fed162bd-5e44-53fc-8bc7-3293b88f3305')]"
+              "id": "[resourceId('Microsoft.Compute/disks', 'W11_OsDisk_1_fed162bd-5e44-53fc-8bc7-3293b88f3305')]",
+              "storageAccountType": "Premium_LRS"
             },
             "osType": "Windows"
           }
@@ -148,9 +161,16 @@
             }
           ]
         },
-        "licenseType": "Windows_Client"
+        "licenseType": "Windows_Client",
+        "diagnosticsProfile": {
+          "bootDiagnostics": {
+            "enabled": true,
+            "storageUri": "[format('https://{0}.blob.core.windows.net/', format('stw11diags{0}', substring(guid(subscription().id), 0, 3)))]"
+          }
+        }
       },
       "dependsOn": [
+        "[resourceId('Microsoft.Storage/storageAccounts', format('stw11diags{0}', substring(guid(subscription().id), 0, 3)))]",
         "[resourceId('Microsoft.Compute/disks', 'W11_OsDisk_1_fed162bd-5e44-53fc-8bc7-3293b88f3305')]",
         "[resourceId('Microsoft.Network/networkInterfaces', 'nic')]"
       ]

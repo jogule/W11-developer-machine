@@ -2,7 +2,7 @@ param name string = 'W11'
 param location string = resourceGroup().location
 
 resource virtualNetwork 'Microsoft.Network/virtualNetworks@2019-11-01' = {
-  name: 'vnet'
+  name: '${name}-vnet'
   location: location
   properties: {
     addressSpace: {
@@ -25,7 +25,7 @@ resource virtualNetwork 'Microsoft.Network/virtualNetworks@2019-11-01' = {
 }
 
 resource publicIPAddress 'Microsoft.Network/publicIPAddresses@2019-11-01' = {
-  name: 'pip'
+  name: '${name}-pip'
   location: location
   properties: {
     publicIPAllocationMethod: 'Dynamic'
@@ -33,7 +33,7 @@ resource publicIPAddress 'Microsoft.Network/publicIPAddresses@2019-11-01' = {
 }
 
 resource networkSecurityGroup 'Microsoft.Network/networkSecurityGroups@2019-11-01' = {
-  name: 'nsg'
+  name: '${name}-nsg'
   location: location
   properties: {
     securityRules: [
@@ -57,7 +57,7 @@ resource networkSecurityGroup 'Microsoft.Network/networkSecurityGroups@2019-11-0
 
 
 resource networkInterface 'Microsoft.Network/networkInterfaces@2020-11-01' = {
-  name: 'nic'
+  name: '${name}-nic'
   location: location
   properties: {
     ipConfigurations: [
@@ -78,20 +78,31 @@ resource networkInterface 'Microsoft.Network/networkInterfaces@2020-11-01' = {
 }
 
 resource disk 'Microsoft.Compute/disks@2021-08-01' = {
-  name: 'W11_OsDisk_1_fed162bd-5e44-53fc-8bc7-3293b88f3305'
+  name: '${name}_OsDisk_1'
   location: location
   sku: {
     name: 'Standard_LRS'
   }
   properties: {
     creationData: {
-      createOption: 'Import'
-      sourceUri: 'https://jonguzxyz.blob.core.windows.net/vhds/W11VM.vhd'  
+      createOption: 'Import'     
+      sourceUri: 'https://jonguzxyz.blob.core.windows.net/vhds/W11VM.vhd'
       storageAccountId: '/subscriptions/99e249a5-a549-4e45-8f73-e03d79691ca8/resourceGroups/core-shared-rg/providers/Microsoft.Storage/storageAccounts/jonguzxyz'
     }
-    
+    osType: 'Windows'
+    hyperVGeneration: 'V2'
   }
 }
+
+resource diags 'Microsoft.Storage/storageAccounts@2021-02-01' = {
+  name: 'stw11diags${substring(guid(deployment().name, subscription().id),0,3)}'
+  location: location
+  kind: 'Storage'
+  sku: {
+    name: 'Standard_LRS'
+  }
+}
+
 
 resource windowsVM 'Microsoft.Compute/virtualMachines@2020-12-01' = {
   name: name
@@ -102,11 +113,11 @@ resource windowsVM 'Microsoft.Compute/virtualMachines@2020-12-01' = {
     }
     storageProfile: {
       osDisk: {
-        name: '${name}_OsDisk_1_${guid( resourceGroup().id)}'
         caching: 'ReadWrite'
         createOption: 'Attach'
         managedDisk: {
           id: disk.id
+          storageAccountType: 'Premium_LRS'
         }
         osType: 'Windows'
       }
@@ -119,5 +130,11 @@ resource windowsVM 'Microsoft.Compute/virtualMachines@2020-12-01' = {
       ]
     }
     licenseType: 'Windows_Client'
+    diagnosticsProfile: {
+      bootDiagnostics: {
+        enabled: true
+        storageUri: 'https://${diags.name}.blob.core.windows.net/'
+      }
+    }
   }
 }

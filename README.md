@@ -65,3 +65,4 @@ az storage blob copy start --account-key $storageAccountKey --account-name $stor
 ```az cli
 az storage blob show -n $destinationVHDFileName -c $storageContainerName --account-name $storageAccountName --account-key $storageAccountKey --query properties.copy.progress
 ```
+
