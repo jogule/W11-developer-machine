@@ -4,6 +4,24 @@
 
 https://raw.githubusercontent.com/jogule/W11-developer-machine/main/main.json
 
+## Summary
+
+This ARM template is a preconfigured Windows 11 developer VM with the following packages pre-instaled:
+
+1. chocolately
+2. vscode
+3. dotnet
+4. git
+5. wsl2
+6. Windows Terminal
+7. GitHub CLI
+8. AZ CLI
+9. Docker Desktop
+10. nodejs
+11. VS2022
+12. Terraform
+13. Powershell Core 7.0
+
 ## For manual deployment using az cli
 
 1. Build the bicep file to an ARM (.json) template
