@@ -77,6 +77,22 @@ resource networkInterface 'Microsoft.Network/networkInterfaces@2020-11-01' = {
   }
 }
 
+resource disk 'Microsoft.Compute/disks@2021-08-01' = {
+  name: 'W11_OsDisk_1_fed162bd-5e44-53fc-8bc7-3293b88f3305'
+  location: location
+  sku: {
+    name: 'Standard_LRS'
+  }
+  properties: {
+    creationData: {
+      createOption: 'Import'
+      sourceUri: 'https://jonguzxyz.blob.core.windows.net/vhds/W11VM.vhd'  
+      storageAccountId: '/subscriptions/99e249a5-a549-4e45-8f73-e03d79691ca8/resourceGroups/core-shared-rg/providers/Microsoft.Storage/storageAccounts/jonguzxyz'
+    }
+    
+  }
+}
+
 resource windowsVM 'Microsoft.Compute/virtualMachines@2020-12-01' = {
   name: name
   location: location
@@ -89,10 +105,10 @@ resource windowsVM 'Microsoft.Compute/virtualMachines@2020-12-01' = {
         name: '${name}_OsDisk_1_${guid( resourceGroup().id)}'
         caching: 'ReadWrite'
         createOption: 'Attach'
-        osType: 'Windows'
-        vhd: {
-          uri: 'https://jonguzxyz.blob.core.windows.net/vhds/W11VM.vhd'
+        managedDisk: {
+          id: disk.id
         }
+        osType: 'Windows'
       }
     }
     networkProfile: {
