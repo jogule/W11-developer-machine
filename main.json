@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.4.1272.37030",
-      "templateHash": "16813894315548685402"
+      "templateHash": "9979289893820499427"
     }
   },
   "parameters": {
@@ -191,10 +191,6 @@
     "passwd": {
       "type": "string",
       "value": "Cundinamarc@123!"
-    },
-    "pip": {
-      "type": "string",
-      "value": "[reference(resourceId('Microsoft.Network/publicIPAddresses', format('{0}-pip', parameters('name')))).ipAddress]"
     }
   }
 }

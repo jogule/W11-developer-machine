@@ -147,4 +147,3 @@ resource windowsVM 'Microsoft.Compute/virtualMachines@2020-12-01' = {
 
 output user string = 'demouser'
 output passwd string = 'Cundinamarc@123!'
-output pip string = publicIPAddress.properties.ipAddress
