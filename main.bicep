@@ -1,6 +1,12 @@
 param name string = 'W11'
 param location string = resourceGroup().location
 
+@allowed([
+  'Standard_D2s_v3'
+  'Standard_D4s_v3'
+])
+param vmSize string = 'Standard_D2s_v3'
+
 resource virtualNetwork 'Microsoft.Network/virtualNetworks@2019-11-01' = {
   name: '${name}-vnet'
   location: location
@@ -109,7 +115,7 @@ resource windowsVM 'Microsoft.Compute/virtualMachines@2020-12-01' = {
   location: location
   properties: {
     hardwareProfile: {
-      vmSize: 'Standard_D2s_v3'
+      vmSize: vmSize
     }
     storageProfile: {
       osDisk: {
@@ -138,3 +144,7 @@ resource windowsVM 'Microsoft.Compute/virtualMachines@2020-12-01' = {
     }
   }
 }
+
+output user string = 'demouser'
+output passwd string = 'Cundinamarc@123!'
+output pip string = publicIPAddress.properties.ipAddress
