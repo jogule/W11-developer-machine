@@ -93,6 +93,7 @@ resource disk 'Microsoft.Compute/disks@2021-08-01' = {
     creationData: {
       createOption: 'Import'     
       sourceUri: 'https://jonguzxyz.blob.core.windows.net/vhds/W11VM.vhd'
+      storageAccountId: '/subscriptions/99e249a5-a549-4e45-8f73-e03d79691ca8/resourceGroups/core-shared-rg/providers/Microsoft.Storage/storageAccounts/jonguzxyz'
     }
     osType: 'Windows'
     hyperVGeneration: 'V2'

@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.4.1272.37030",
-      "templateHash": "3546471113855904218"
+      "templateHash": "9979289893820499427"
     }
   },
   "parameters": {
@@ -124,7 +124,8 @@
       "properties": {
         "creationData": {
           "createOption": "Import",
-          "sourceUri": "https://jonguzxyz.blob.core.windows.net/vhds/W11VM.vhd"
+          "sourceUri": "https://jonguzxyz.blob.core.windows.net/vhds/W11VM.vhd",
+          "storageAccountId": "/subscriptions/99e249a5-a549-4e45-8f73-e03d79691ca8/resourceGroups/core-shared-rg/providers/Microsoft.Storage/storageAccounts/jonguzxyz"
         },
         "osType": "Windows",
         "hyperVGeneration": "V2"
