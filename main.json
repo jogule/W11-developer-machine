@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.4.1272.37030",
-      "templateHash": "9979289893820499427"
+      "templateHash": "16220023885068286319"
     }
   },
   "parameters": {
@@ -115,7 +115,7 @@
     },
     {
       "type": "Microsoft.Compute/disks",
-      "apiVersion": "2021-08-01",
+      "apiVersion": "2017-03-30",
       "name": "[format('{0}_OsDisk_1', parameters('name'))]",
       "location": "[parameters('location')]",
       "sku": {
@@ -124,11 +124,9 @@
       "properties": {
         "creationData": {
           "createOption": "Import",
-          "sourceUri": "https://jonguzxyz.blob.core.windows.net/vhds/W11VM.vhd",
-          "storageAccountId": "/subscriptions/99e249a5-a549-4e45-8f73-e03d79691ca8/resourceGroups/core-shared-rg/providers/Microsoft.Storage/storageAccounts/jonguzxyz"
+          "sourceUri": "https://jonguzxyz.blob.core.windows.net/vhds/W11VM.vhd"
         },
-        "osType": "Windows",
-        "hyperVGeneration": "V2"
+        "osType": "Windows"
       }
     },
     {
